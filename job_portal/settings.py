@@ -11,18 +11,31 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import os
-import environ
+import os,environ
+from environ import Env
+ 
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# BASE_DIR = Path(__file__).resolve().parent.parent
+
+# ENV_FILE = os.path.join(BASE_DIR,'.env')
+# environ.Env.read_env(ENV_FILE)
+# if os.path.exists(ENV_FILE):
+#     environ.Env.read_env(ENV_FILE)
+# env = os.environ
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ENV_FILE = os.path.join(BASE_DIR,'.env')
-environ.Env.read_env(ENV_FILE)
-ENV_FILE = os.path.join(BASE_DIR,'.env')
-if os.path.exists(ENV_FILE):
-    environ.Env.read_env(ENV_FILE)
-env = os.environ
+# Path to the .env file
+ENV_FILE = os.path.join(BASE_DIR, '.env')
+
+# Create an instance of the Env class
+env = Env()
+
+# Read environment variables from the .env file if it exists
+env.read_env(ENV_FILE)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -96,11 +109,11 @@ WSGI_APPLICATION = 'job_portal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.path.join(BASE_DIR, env.get('DB_NAME')),
-        'USER': env.get('DB_USER'),
-        'PASSWORD': env.get('DB_PASSWORD'),
-        'HOST': env.get('DB_HOST'),
-        'PORT': int(env.get('DB_PORT')),
+        'NAME': env.str('DB_NAME'),
+        'USER': env.str('DB_USER'),
+        'PASSWORD': env.str('DB_PASSWORD'),
+        'HOST': env.str('DB_HOST'),
+        'PORT': env.int('DB_PORT')
     }
 }
 
@@ -209,11 +222,11 @@ SIMPLE_JWT = {
 
 # email credentials
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = env.get('EMAIL_HOST')
-EMAIL_PORT = env.get('EMAIL_PORT')
-EMAIL_USE_TLS = env.get('EMAIL_USE_TLS')
-EMAIL_HOST_USER = env.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST = env.str('EMAIL_HOST')
+EMAIL_PORT = env.str('EMAIL_PORT')
+EMAIL_USE_TLS = env.str('EMAIL_USE_TLS')
+EMAIL_HOST_USER = env.str('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
 
 
 
