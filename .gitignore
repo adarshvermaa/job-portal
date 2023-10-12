@@ -1,0 +1,11 @@
+.env
+./command.sh
+
+*.pyc
+
+env/
+
+# Ignore database files
+db.sqlite3
+
+command.sh

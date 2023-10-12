@@ -11,10 +11,18 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ENV_FILE = os.path.join(BASE_DIR,'.env')
+environ.Env.read_env(ENV_FILE)
+ENV_FILE = os.path.join(BASE_DIR,'.env')
+if os.path.exists(ENV_FILE):
+    environ.Env.read_env(ENV_FILE)
+env = os.environ
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -83,12 +91,19 @@ WSGI_APPLICATION = 'job_portal.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.path.join(BASE_DIR, env.get('DB_NAME')),
+        'USER': env.get('DB_USER'),
+        'PASSWORD': env.get('DB_PASSWORD'),
+        'HOST': env.get('DB_HOST'),
+        'PORT': int(env.get('DB_PORT')),
     }
 }
+
 
 
 # Password validation
@@ -194,8 +209,23 @@ SIMPLE_JWT = {
 
 # email credentials
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'grtiuppwebhost@gmail.com'
-EMAIL_HOST_PASSWORD = 'vjfpfooulmagyoqn'
+EMAIL_HOST = env.get('EMAIL_HOST')
+EMAIL_PORT = env.get('EMAIL_PORT')
+EMAIL_USE_TLS = env.get('EMAIL_USE_TLS')
+EMAIL_HOST_USER = env.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env.get('EMAIL_HOST_PASSWORD')
+
+
+
+
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'btre/static')
+]
+
+# MEDIA FOLDER SETTINGS
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
