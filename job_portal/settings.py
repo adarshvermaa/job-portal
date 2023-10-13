@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'account',
     'jobs',
     'resume',
+    'django_filters',
 
     'rest_framework_simplejwt',# simple jwt
     "rest_framework_simplejwt.token_blacklist", # add token to blacklist
