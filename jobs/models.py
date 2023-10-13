@@ -4,6 +4,8 @@ from account.models import BaseModel
 
 class JobCategory(BaseModel):
     category = models.CharField(max_length=100)
+    def  __str__(self):
+        return self.category
 
 class PostJob(BaseModel):
     job_category = models.ForeignKey(JobCategory,on_delete=models.CASCADE,help_text="please select the job category", related_name="job_category")
@@ -15,5 +17,6 @@ class PostJob(BaseModel):
     description = models.TextField(blank=True)
     
     
+
 
 
