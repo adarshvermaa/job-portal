@@ -19,7 +19,7 @@ class PostJobApiview(APIView):
             return PostJob.objects.get(pk=pk)
         except PostJob.DoesNotExist:
             raise Http404
-        # get the employee by id otherwise all the employee
+        # get the jobs by id otherwise all the jobs
     def get(self, request, pk=None, format=None):
         if pk:
             postjob= self.get_object(pk)
