@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from django.http.response import Http404
 from rest_framework import status
 from .serializers import ResumeSerializers,ProfileCompletionStarSerializers
-from quill.delta import Delta
+# from quill.delta import Delta
 from django.http import JsonResponse
 
 
@@ -31,36 +31,36 @@ class ResumeApiview(APIView):
         
     # Post request
 
-    def post(self, request, format=None):
-        try:
-            current_user = request.user
-            mutable_data = request.data.copy()
-            mutable_data['user'] = current_user.id
+    # def post(self, request, format=None):
+    #     try:
+    #         current_user = request.user
+    #         mutable_data = request.data.copy()
+    #         mutable_data['user'] = current_user.id
 
-            # Assuming the Quill content is in a field called 'content'
-            quill_content_delta = mutable_data.get('content', '')
+    #         # Assuming the Quill content is in a field called 'content'
+    #         quill_content_delta = mutable_data.get('content', '')
 
-            # Parse Quill delta
-            delta = Delta(quill_content_delta)
+    #         # Parse Quill delta
+    #         delta = Delta(quill_content_delta)
 
-            # You can now access and process the contents of the delta
-            # For example, to get the HTML, you can use delta.to_html()
+    #         # You can now access and process the contents of the delta
+    #         # For example, to get the HTML, you can use delta.to_html()
 
-            # Save to the database using your serializer
-            serializer = ResumeSerializers(data=mutable_data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
+    #         # Save to the database using your serializer
+    #         serializer = ResumeSerializers(data=mutable_data)
+    #         serializer.is_valid(raise_exception=True)
+    #         serializer.save()
 
-            response = JsonResponse({
-                'message': 'Resume Created Successfully',
-                'data': serializer.data
-            })
+    #         response = JsonResponse({
+    #             'message': 'Resume Created Successfully',
+    #             'data': serializer.data
+    #         })
 
-            return response
+    #         return response
 
-        except Exception as e:
-            # Handle exceptions
-            return JsonResponse({'error': str(e)}, status=500)
+        # except Exception as e:
+        #     # Handle exceptions
+        #     return JsonResponse({'error': str(e)}, status=500)
     
 
     def patch(self, request, pk=None, format=None):
