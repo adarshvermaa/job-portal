@@ -5,8 +5,6 @@ from rest_framework.response import Response
 from django.http.response import Http404
 from rest_framework import status
 from .serializers import ResumeSerializers,ProfileCompletionStarSerializers
-# from quill.delta import Delta
-from django.http import JsonResponse
 
 
 class ResumeApiview(APIView):
@@ -31,54 +29,56 @@ class ResumeApiview(APIView):
         
     # Post request
 
-    # def post(self, request, format=None):
-    #     try:
-    #         current_user = request.user
-    #         mutable_data = request.data.copy()
-    #         mutable_data['user'] = current_user.id
+    def post(self, request, format=None):
+            current_user = request.user
+            existing_resume = Resume.objects.filter(user=current_user).first()
 
-    #         # Assuming the Quill content is in a field called 'content'
-    #         quill_content_delta = mutable_data.get('content', '')
+            if existing_resume:
+                # If a resume already exists, return a response to update the resume
+                return Response(
+                    {'message': 'Your resume already exists. Please update your resume.'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
-    #         # Parse Quill delta
-    #         delta = Delta(quill_content_delta)
-
-    #         # You can now access and process the contents of the delta
-    #         # For example, to get the HTML, you can use delta.to_html()
-
-    #         # Save to the database using your serializer
-    #         serializer = ResumeSerializers(data=mutable_data)
-    #         serializer.is_valid(raise_exception=True)
-    #         serializer.save()
-
-    #         response = JsonResponse({
-    #             'message': 'Resume Created Successfully',
-    #             'data': serializer.data
-    #         })
-
-    #         return response
-
-        # except Exception as e:
-        #     # Handle exceptions
-        #     return JsonResponse({'error': str(e)}, status=500)
-    
-
-    def patch(self, request, pk=None, format=None):
-                
-            resume_to_update = Resume.objects.get(pk=pk)
-
-            serializer = ResumeSerializers(instance=resume_to_update,data=request.data, partial=True)
-
+            mutable_data = request.data.copy()
+            mutable_data['user'] = current_user.id  
+            serializer = ResumeSerializers(data=mutable_data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             response = Response()
 
             response.data = {
-                'message': 'Resume Updated Successfully',
+                'message': 'Resume Created Successfully',
                 'data': serializer.data
             }
 
             return response
+    
+
+    def patch(self, request, pk=None, format=None):
+        current_user = request.user
+
+        # Retrieve the resume to update
+        resume_to_update = Resume.objects.get(user=current_user)
+
+        # Check if the user attempting to update the resume is the owner
+        if resume_to_update.user != current_user:
+            return Response(
+                {'message': 'You do not have permission to update this resume.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        serializer = ResumeSerializers(instance=resume_to_update, data=request.data, partial=True)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        response = Response({
+            'message': 'Resume Updated Successfully',
+            'data': serializer.data
+        })
+
+        return response
 
 
 

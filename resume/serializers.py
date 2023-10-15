@@ -2,6 +2,11 @@ from rest_framework.serializers import  ModelSerializer
 from .models import Resume, ProfileCompletionStar
 from django.contrib.sites.shortcuts import get_current_site
 # from django_quill.serializers import QuillSerializerMixin
+from django_quill.fields import QuillField
+
+from rest_framework import serializers
+import bleach
+from bleach.linkifier import LinkifyFilter
 
 
 class ProfileCompletionStarSerializers(ModelSerializer):
@@ -9,6 +14,25 @@ class ProfileCompletionStarSerializers(ModelSerializer):
         models = ProfileCompletionStar
         fields = "__all__"
 
+
+class FieldQuill:
+    def __init__(self, content):
+        self.content = content
+
+    def get_text_content(self):
+        return "Extracted text content"
+    def __str__(self):
+        return f"FieldQuill(content={self.content})"
+
+class QuillFieldSerializer(serializers.Field):
+    def to_representation(self, value):
+        # Assuming QuillField has a 'content' attribute
+        return bleach.clean(value)
+
+    def to_internal_value(self, data):
+        # Handle conversion from JSON to QuillField instance if needed
+        # This might involve creating a new QuillField instance with the provided content
+        return QuillField(content=data)
 class ResumeSerializers(ModelSerializer):
     class Meta:
         model = Resume

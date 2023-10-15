@@ -1,6 +1,8 @@
 from django.db import models
 from account.models import BaseModel,User
 from django_quill.fields import QuillField
+from tinymce.models import HTMLField
+
 # Create your models here.
 
 
@@ -10,11 +12,11 @@ class Resume(BaseModel):
     linkdin_profile = models.URLField(blank=True,null=True)
     email = models.EmailField(blank=True,null=True)
     phone_number = models.IntegerField(blank=True,null=True)
-    eductaion = QuillField(blank=True,null=True)
+    eductaion = HTMLField(blank=True,null=True)
     skills = models.CharField(max_length=1000,blank=True,null=True)
-    projects = QuillField(blank=True,null=True)
-    extra_circulam_activity = QuillField(blank=True,null=True)
-    achivements = QuillField(blank=True,null=True)
+    projects = HTMLField(blank=True,null=True)
+    extra_circulam_activity = HTMLField(blank=True,null=True)
+    achivements = HTMLField(blank=True,null=True)
 
 
 class ProfileCompletionStar(BaseModel):

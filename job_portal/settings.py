@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'resume',
     'django_filters',
     'django_quill',
-    # 'quill-delta',
+    'tinymce',
 
     'rest_framework_simplejwt',# simple jwt
     "rest_framework_simplejwt.token_blacklist", # add token to blacklist
