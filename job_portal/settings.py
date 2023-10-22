@@ -64,7 +64,7 @@ INSTALLED_APPS = [
     'django_filters',
     'django_quill',
     'tinymce',
-
+    'apply_jobs',
     'rest_framework_simplejwt',# simple jwt
     "rest_framework_simplejwt.token_blacklist", # add token to blacklist
     'rest_framework',# instal  rest_framework

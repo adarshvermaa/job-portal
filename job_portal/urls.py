@@ -21,7 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/',include('account.urls')),
     path('job/',include('jobs.urls')),
-    path('build-resume/',include('resume.urls'))
+    path('build-resume/',include('resume.urls')),
+    path('apply-job/',include('apply_jobs.urls')),
 
 
 ]
