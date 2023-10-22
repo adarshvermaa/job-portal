@@ -8,3 +8,7 @@ from jobs.models import PostJob
 class AppliedJobs(BaseModel):
     resume = models.ForeignKey(Resume,models.CASCADE)
     postjob = models.ForeignKey(PostJob,models.CASCADE)
+
+    class Meta:
+        verbose_name = "Applied Jobs"  # Set the singular display name
+        verbose_name_plural = "Applied Jobs"  # Set the plural display name
