@@ -23,6 +23,7 @@ urlpatterns = [
     path('job/',include('jobs.urls')),
     path('build-resume/',include('resume.urls')),
     path('apply-job/',include('apply_jobs.urls')),
+    path('testimonial/',include('testimonials.urls')),
 
 
 ]

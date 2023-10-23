@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'resume',
     'django_filters',
     'django_quill',
+    'testimonials',
     'tinymce',
     'apply_jobs',
     'rest_framework_simplejwt',# simple jwt
