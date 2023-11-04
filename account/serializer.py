@@ -103,3 +103,7 @@ class LogoutSerializer(serializers.Serializer):
 # password reset api
 class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
+
+
+class DashboardAccessSerializer(serializers.ModelSerializer):
+    pass

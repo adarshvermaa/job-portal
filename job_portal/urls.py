@@ -24,6 +24,7 @@ urlpatterns = [
     path('build-resume/',include('resume.urls')),
     path('apply-job/',include('apply_jobs.urls')),
     path('testimonial/',include('testimonials.urls')),
+    path('community/',include('community.urls')),
 
 
 ]
